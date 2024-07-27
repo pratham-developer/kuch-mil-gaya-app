@@ -29,10 +29,26 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        // Check if user is already logged in
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser != null) {
+            // User is already logged in, redirect to ProfileActivity
+            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+            return; // Prevent further execution of onCreate
+        }
+
+        // Set the content view for the MainActivity if not logged in
         setContentView(R.layout.activity_main);
 
         // Assign variable
         btSignIn = findViewById(R.id.bt_sign_in);
+        btSignIn.setSize(2);
 
         // Initialize sign in options the client-id is copied form google-services.json file
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -70,18 +86,28 @@ public class MainActivity extends AppCompatActivity {
             Task<GoogleSignInAccount> signInAccountTask = GoogleSignIn.getSignedInAccountFromIntent(data);
             // check condition
             if (signInAccountTask.isSuccessful()) {
-                // When google sign in successful initialize string
-                String s = "Google sign in successful";
-                // Display Toast
-                displayToast(s);
                 // Initialize sign in account
                 try {
                     // Initialize sign in account
                     GoogleSignInAccount googleSignInAccount = signInAccountTask.getResult(ApiException.class);
                     // Check condition
                     if (googleSignInAccount != null) {
-                        // When sign in account is not equal to null initialize auth credential
-                        AuthCredential authCredential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(), null);
+
+                        String email = googleSignInAccount.getEmail();
+                        if (email == null || !(email.endsWith("@vitstudent.ac.in"))){
+                            displayToast("Invalid email domain");
+                            googleSignInClient.signOut();
+                            return;
+                        }
+                        else{
+                            // When google sign in successful initialize string
+                            String s = "Google sign in successful";
+                            // Display Toast
+                            displayToast(s);
+                        }
+
+                            // When sign in account is not equal to null initialize auth credential
+                            AuthCredential authCredential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(), null);
                         // Check credential
                         firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                             @Override
@@ -89,11 +115,13 @@ public class MainActivity extends AppCompatActivity {
                                 // Check condition
                                 if (task.isSuccessful()) {
                                     // When task is successful redirect to profile activity display Toast
-                                    startActivity(new Intent(MainActivity.this, ProfileActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                                    displayToast("Firebase authentication successful");
+                                    Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                    finish();
                                 } else {
                                     // When task is unsuccessful display Toast
-                                    displayToast("Authentication Failed :" + task.getException().getMessage());
+                                    displayToast("Authentication Failed");
                                 }
                             }
                         });
