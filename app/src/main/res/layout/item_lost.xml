@@ -1,40 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/border"
+    tools:context=".ItemDetailActivity">
 
     <ImageView
         android:id="@+id/item_image"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:background="@android:color/darker_gray" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:paddingTop="8dp" />
+        android:textColor="@color/purple"
+        android:paddingTop="8dp"
+        app:fontFamily="sans-serif"
+        tools:text="Item Name" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/item_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="4dp" />
+        android:paddingTop="4dp"
+        android:textColor="@color/purple"
+        app:fontFamily="sans-serif"
+        tools:text="Item Date" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/item_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="4dp" />
+        android:paddingTop="4dp"
+        android:textColor="@color/purple"
+        app:fontFamily="sans-serif"
+        tools:text="Item Time" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/item_place"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="4dp" />
+        android:paddingTop="4dp"
+        android:textColor="@color/purple"
+        app:fontFamily="sans-serif"
+        tools:text="Item Place" />
 
 </LinearLayout>

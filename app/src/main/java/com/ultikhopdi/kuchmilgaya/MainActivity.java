@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set the content view for the MainActivity if not logged in
         setContentView(R.layout.activity_main);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
         // Assign variable
         btSignIn = findViewById(R.id.bt_sign_in);
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize sign in options the client-id is copied form google-services.json file
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("YOUR TOKEN")
+                .requestIdToken("5006594070-89i8qn3eg7rvfsrtg1lo41q61b2tfj85.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 

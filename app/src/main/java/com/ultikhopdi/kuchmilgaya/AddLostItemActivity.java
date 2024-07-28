@@ -42,6 +42,7 @@ public class AddLostItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_lost_item);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
         itemNameEditText = findViewById(R.id.item_name);
         dateEditText = findViewById(R.id.date);

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "5006594070",
+    "firebase_url": "https://kuch-mil-gaya-c28fd-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "kuch-mil-gaya-c28fd",
+    "storage_bucket": "kuch-mil-gaya-c28fd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:5006594070:android:aa1c916d752638b5c6e537",
+        "android_client_info": {
+          "package_name": "com.ultikhopdi.kuchmilgaya"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "5006594070-8jb3p9frdq3ptk074qm93pqu3lcoa6e4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ultikhopdi.kuchmilgaya",
+            "certificate_hash": "3f0e45a0542381ce465255710409e1c0213cd707"
+          }
+        },
+        {
+          "client_id": "5006594070-89i8qn3eg7rvfsrtg1lo41q61b2tfj85.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQAROPx-FWxJYQmGpHj2gRZbE3VikoOWo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "5006594070-89i8qn3eg7rvfsrtg1lo41q61b2tfj85.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

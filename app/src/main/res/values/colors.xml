@@ -4,5 +4,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="purple">#535AFF</color>
     <color name="background_tint">#FAF0E6</color>
+    <!-- res/values/colors.xml -->
+    <color name="dull_black">#8A8A8A</color> <!-- Example dull black color -->
+
 
 </resources>
