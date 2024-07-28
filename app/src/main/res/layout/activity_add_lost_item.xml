@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".AddLostItemActivity">
+
+    <!-- EditText for Item Name -->
+    <EditText
+        android:id="@+id/item_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Item Name"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- EditText for Date -->
+    <EditText
+        android:id="@+id/date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Date"
+        android:padding="12dp"
+        android:layout_below="@id/item_name"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- EditText for Time -->
+    <EditText
+        android:id="@+id/time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Time"
+        android:padding="12dp"
+        android:layout_below="@id/date"
+        android:layout_marginBottom="16dp" />
+
+    <!-- EditText for Place -->
+    <EditText
+        android:id="@+id/place"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Place"
+        android:padding="12dp"
+        android:layout_below="@id/time"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Button to Select Image -->
+    <Button
+        android:id="@+id/select_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Image"
+        android:layout_below="@id/place"
+        android:layout_marginBottom="16dp" />
+
+    <!-- ImageView to Display Selected Image -->
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/select_image_button"
+        android:scaleType="centerCrop"
+        android:background="@android:color/darker_gray"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Button to Add Lost Item -->
+    <Button
+        android:id="@+id/add_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Lost Item"
+        android:layout_below="@id/image_view" />
+
+</RelativeLayout>

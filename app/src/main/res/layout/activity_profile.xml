@@ -82,19 +82,20 @@ android:textColor="@android:color/darker_gray"
 app:fontFamily="sans-serif" />
 
     <!-- Buttons for actions -->
-<com.google.android.material.button.MaterialButton
-android:id="@+id/btn_find_lost"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_below="@id/iv_subtext"
-android:layout_marginTop="4dp"
-android:layout_marginHorizontal="16dp"
-android:text="Find Something I lost"
-android:backgroundTint="@color/purple"
-android:textColor="@android:color/white"
-app:cornerRadius="16dp" />
 
-<com.google.android.material.button.MaterialButton
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_find_lost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_subtext"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="6dp"
+        android:backgroundTint="@color/purple"
+        android:text="Find Something I lost"
+        android:textColor="@android:color/white"
+        app:cornerRadius="16dp" />
+
+    <com.google.android.material.button.MaterialButton
 android:id="@+id/btn_report_found"
 android:layout_width="match_parent"
 android:layout_height="wrap_content"

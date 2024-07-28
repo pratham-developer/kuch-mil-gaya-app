@@ -26,6 +26,8 @@ public class ProfileActivity extends AppCompatActivity {
     TextView tvName;
     ImageView accountBut;
     ImageView notifBut;
+    Button fndBut;
+    Button repBut;
     FirebaseAuth firebaseAuth;
     GoogleSignInClient googleSignInClient;
 
@@ -39,6 +41,8 @@ public class ProfileActivity extends AppCompatActivity {
         tvName = findViewById(R.id.iv_name);
         accountBut = findViewById(R.id.iv_profile);
         notifBut = findViewById(R.id.iv_notification);
+        fndBut = findViewById(R.id.btn_find_lost);
+        repBut = findViewById(R.id.btn_report_found);
         // Initialize firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -62,5 +66,20 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        fndBut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, ViewLostItemsActivity.class);
+                startActivity(intent);
+            }
+        });
+        repBut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, AddLostItemActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }
