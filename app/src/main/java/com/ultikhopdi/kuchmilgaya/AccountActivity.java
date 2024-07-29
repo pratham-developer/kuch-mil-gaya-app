@@ -22,6 +22,7 @@ public class AccountActivity extends AppCompatActivity {
     // Initialize variables
     private TextView uName;
     private TextView email;
+    private TextView reg;
     private Button btActivity;
     private Button btAbtus;
     private Button btTnc;
@@ -40,6 +41,7 @@ public class AccountActivity extends AppCompatActivity {
         // Assign variables
         uName = findViewById(R.id.userName);
         email = findViewById(R.id.mailId);
+        reg = findViewById(R.id.regNo);
         btActivity = findViewById(R.id.btn_ur_activity);
         btAbtus = findViewById(R.id.btn_abtus);
         btTnc = findViewById(R.id.btn_tnc);
@@ -64,6 +66,7 @@ public class AccountActivity extends AppCompatActivity {
                     uName.setText(name); // Fallback to full name if no space found
                 } else {
                     uName.setText(name.substring(0, lastInd));
+                    reg.setText(name.substring(lastInd+1));
                 }
             }
 

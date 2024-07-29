@@ -4,11 +4,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     android:background="@color/background_tint"
     tools:context=".ProfileActivity">
 
     <!-- Icons for notification and profile -->
+    <ImageView
+        android:id="@+id/top_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@drawable/cutout_top"
+        android:layout_alignParentTop="true"
+        android:fitsSystemWindows="true" />
 
     <ImageView
         android:id="@+id/iv_profile"
@@ -34,7 +41,7 @@ android:id="@+id/iv_welcome"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:layout_below="@id/iv_notification"
-android:layout_marginTop="50dp"
+android:layout_marginTop="70dp"
     android:layout_marginStart="20dp"
 android:text="Hello again,"
 android:textSize="32sp"
@@ -106,6 +113,15 @@ android:text="Report Something I found"
 android:backgroundTint="@color/purple"
 android:textColor="@android:color/white"
 app:cornerRadius="16dp" />
+    <ImageView
+        android:id="@+id/bottom_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@drawable/cutout_bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:fitsSystemWindows="true" />
 
 
     </RelativeLayout>

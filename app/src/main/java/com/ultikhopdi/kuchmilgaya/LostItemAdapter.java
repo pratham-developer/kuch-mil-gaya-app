@@ -33,6 +33,8 @@ public class LostItemAdapter extends RecyclerView.Adapter<LostItemAdapter.LostIt
         holder.itemDate.setText(lostItem.getDate());
         holder.itemTime.setText(lostItem.getTime());
         holder.itemPlace.setText(lostItem.getPlace());
+        holder.itemDesc.setText(lostItem.getDesc());
+        holder.itemContact.setText(lostItem.getContact());
         if (lostItem.getImageUrl() != null && !lostItem.getImageUrl().isEmpty()) {
             Glide.with(holder.itemView.getContext()).load(lostItem.getImageUrl()).into(holder.itemImage);
         }
@@ -44,7 +46,7 @@ public class LostItemAdapter extends RecyclerView.Adapter<LostItemAdapter.LostIt
     }
 
     public static class LostItemViewHolder extends RecyclerView.ViewHolder {
-        public TextView itemName, itemDate, itemTime, itemPlace;
+        public TextView itemName, itemDate, itemTime, itemPlace,itemDesc,itemContact;
         public ImageView itemImage;
 
         public LostItemViewHolder(@NonNull View itemView) {
@@ -53,6 +55,8 @@ public class LostItemAdapter extends RecyclerView.Adapter<LostItemAdapter.LostIt
             itemDate = itemView.findViewById(R.id.item_date);
             itemTime = itemView.findViewById(R.id.item_time);
             itemPlace = itemView.findViewById(R.id.item_place);
+            itemDesc = itemView.findViewById(R.id.item_desc);
+            itemContact = itemView.findViewById(R.id.item_contact);
             itemImage = itemView.findViewById(R.id.item_image);
         }
     }

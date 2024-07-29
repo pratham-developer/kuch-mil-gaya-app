@@ -29,7 +29,7 @@ import java.io.IOException;
 
 public class AddLostItemActivity extends AppCompatActivity {
     private static final String TAG = "AddLostItemActivity";
-    private EditText itemNameEditText, dateEditText, timeEditText, placeEditText;
+    private EditText itemNameEditText, dateEditText, timeEditText, placeEditText,descEditText,contactEditText;
     private Button addButton, selectImageButton;
     private ImageView imageView;
     private DatabaseReference databaseReference;
@@ -48,6 +48,8 @@ public class AddLostItemActivity extends AppCompatActivity {
         dateEditText = findViewById(R.id.date);
         timeEditText = findViewById(R.id.time);
         placeEditText = findViewById(R.id.place);
+        descEditText = findViewById(R.id.desc);
+        contactEditText = findViewById(R.id.contact);
         addButton = findViewById(R.id.add_button);
         selectImageButton = findViewById(R.id.select_image_button);
         imageView = findViewById(R.id.image_view);
@@ -139,10 +141,12 @@ public class AddLostItemActivity extends AppCompatActivity {
         String date = dateEditText.getText().toString().trim();
         String time = timeEditText.getText().toString().trim();
         String place = placeEditText.getText().toString().trim();
+        String desc = descEditText.getText().toString().trim();
+        String contact = contactEditText.getText().toString().trim();
 
-        if (!itemName.isEmpty() && !date.isEmpty() && !time.isEmpty() && !place.isEmpty()) {
+        if (!itemName.isEmpty() && !date.isEmpty() && !time.isEmpty() && !place.isEmpty() &&!desc.isEmpty() && !contact.isEmpty()) {
             String id = databaseReference.push().getKey();
-            LostItem lostItem = new LostItem(id, itemName, date, time, place, imageUrl);
+            LostItem lostItem = new LostItem(id, itemName, date, time, place,desc,contact, imageUrl);
             Log.d(TAG, "Adding item to database with ID: " + id);
             databaseReference.child(id).setValue(lostItem).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override

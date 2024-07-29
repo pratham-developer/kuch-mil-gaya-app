@@ -2,6 +2,7 @@ package com.ultikhopdi.kuchmilgaya;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,7 +23,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 public class MainActivity extends AppCompatActivity {
     // Initialize variables
-    SignInButton btSignIn;
+    ImageView btSignIn;
     GoogleSignInClient googleSignInClient;
     FirebaseAuth firebaseAuth;
 
@@ -49,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Assign variable
         btSignIn = findViewById(R.id.bt_sign_in);
-        btSignIn.setSize(2);
 
         // Initialize sign in options the client-id is copied form google-services.json file
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
