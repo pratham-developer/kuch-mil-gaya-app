@@ -1,5 +1,7 @@
 package com.ultikhopdi.kuchmilgaya;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +16,11 @@ import java.util.List;
 public class LostItemAdapter extends RecyclerView.Adapter<LostItemAdapter.LostItemViewHolder> {
 
     private List<LostItem> lostItemList;
+    private Context context;
 
-    public LostItemAdapter(List<LostItem> lostItemList) {
+    public LostItemAdapter(List<LostItem> lostItemList, Context context) {
         this.lostItemList = lostItemList;
+        this.context = context;
     }
 
     @NonNull
@@ -35,9 +39,23 @@ public class LostItemAdapter extends RecyclerView.Adapter<LostItemAdapter.LostIt
         holder.itemPlace.setText(lostItem.getPlace());
         holder.itemDesc.setText(lostItem.getDesc());
         holder.itemContact.setText(lostItem.getContact());
+
         if (lostItem.getImageUrl() != null && !lostItem.getImageUrl().isEmpty()) {
             Glide.with(holder.itemView.getContext()).load(lostItem.getImageUrl()).into(holder.itemImage);
         }
+
+        // Set OnClickListener to open new activity with item details
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, DetailActivity.class);
+            intent.putExtra("item_name", lostItem.getItemName());
+            intent.putExtra("item_date", lostItem.getDate());
+            intent.putExtra("item_time", lostItem.getTime());
+            intent.putExtra("item_place", lostItem.getPlace());
+            intent.putExtra("item_desc", lostItem.getDesc());
+            intent.putExtra("item_contact", lostItem.getContact());
+            intent.putExtra("item_image_url", lostItem.getImageUrl());
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -46,7 +64,7 @@ public class LostItemAdapter extends RecyclerView.Adapter<LostItemAdapter.LostIt
     }
 
     public static class LostItemViewHolder extends RecyclerView.ViewHolder {
-        public TextView itemName, itemDate, itemTime, itemPlace,itemDesc,itemContact;
+        public TextView itemName, itemDate, itemTime, itemPlace, itemDesc, itemContact;
         public ImageView itemImage;
 
         public LostItemViewHolder(@NonNull View itemView) {

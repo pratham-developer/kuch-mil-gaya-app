@@ -6,6 +6,11 @@
     <color name="background_tint">#FAF0E6</color>
     <!-- res/values/colors.xml -->
     <color name="dull_black">#8A8A8A</color> <!-- Example dull black color -->
+    <color name="your_text_color">#000000</color>
+    <color name="your_hint_color">#8a8a8a</color>
+    <color name="gray">#8a8a8a</color>
+    <color name="your_input_background_color">#faf0e6</color>
+    <color name="your_button_color">#535AFF</color>
 
 
 </resources>

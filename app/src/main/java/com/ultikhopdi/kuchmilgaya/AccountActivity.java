@@ -104,5 +104,13 @@ public class AccountActivity extends AppCompatActivity {
             }
         });
 
+        btActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AccountActivity.this, MyActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }
