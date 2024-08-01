@@ -80,6 +80,7 @@ public class AddLostItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (imageUri != null) {
+                    addButton.setEnabled(false);
                     compressAndUploadImage();
                 } else {
                     Toast.makeText(AddLostItemActivity.this, "Please select an image", Toast.LENGTH_SHORT).show();
@@ -125,13 +126,15 @@ public class AddLostItemActivity extends AppCompatActivity {
                         public void onSuccess(Uri uri) {
                             String imageUrl = uri.toString();
                             Log.d(TAG, "Download URL: " + imageUrl);
-                            addLostItem(imageUrl);
+                            addLostItem(imageUrl, id);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Log.e(TAG, "Failed to get download URL", e);
                             Toast.makeText(AddLostItemActivity.this, "Failed to get download URL: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            // Enable the button if getting the URL fails
+                            addButton.setEnabled(true);
                         }
                     });
                 }
@@ -140,28 +143,29 @@ public class AddLostItemActivity extends AppCompatActivity {
                 public void onFailure(@NonNull Exception e) {
                     Log.e(TAG, "Image upload failed", e);
                     Toast.makeText(AddLostItemActivity.this, "Image upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    // Enable the button if the upload fails
+                    addButton.setEnabled(true);
                 }
             });
         } catch (IOException e) {
             Log.e(TAG, "Failed to compress image", e);
             Toast.makeText(this, "Failed to compress image", Toast.LENGTH_SHORT).show();
+            // Enable the button if compression fails
+            addButton.setEnabled(true);
         }
     }
 
-    private void addLostItem(String imageUrl) {
-
+    private void addLostItem(String imageUrl, String id) {
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        String userReg="";
-        String userId="";
+        String userReg = "";
+        String userId = "";
 
         if (firebaseUser != null) {
-            // When firebase user is not equal to null set image on image view
-            // set name on text view
             userId = firebaseUser.getEmail();
             String name = firebaseUser.getDisplayName();
             String[] words = name.split(" ");
-            userReg = words[words.length-1];
+            userReg = words[words.length - 1];
         }
         String itemName = itemNameEditText.getText().toString().trim();
         String date = dateEditText.getText().toString().trim();
@@ -170,21 +174,15 @@ public class AddLostItemActivity extends AppCompatActivity {
         String desc = descEditText.getText().toString().trim();
         String contact = contactEditText.getText().toString().trim();
 
-        // Get the current date and time in IST
         ZonedDateTime istDateTime = ZonedDateTime.now(ZoneId.of("Asia/Kolkata"));
-        // Define formatters to format the date and time separately
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        // Format the current date and time separately
         String dateReg = istDateTime.format(dateFormatter);
         String timeReg = istDateTime.format(timeFormatter);
         Boolean claimed = false;
 
-
-
-        if (!itemName.isEmpty() && !date.isEmpty() && !time.isEmpty() && !place.isEmpty() &&!desc.isEmpty() && !contact.isEmpty() &&!userId.isEmpty() && !userReg.isEmpty() && !dateReg.isEmpty() && !timeReg.isEmpty()) {
-            String id = databaseReference.push().getKey();
-            LostItem lostItem = new LostItem(id, itemName, date, time, place,desc,contact, imageUrl,userId,userReg,dateReg,timeReg,claimed);
+        if (!itemName.isEmpty() && !date.isEmpty() && !time.isEmpty() && !place.isEmpty() && !desc.isEmpty() && !contact.isEmpty() && !userId.isEmpty() && !userReg.isEmpty() && !dateReg.isEmpty() && !timeReg.isEmpty()) {
+            LostItem lostItem = new LostItem(id, itemName, date, time, place, desc, contact, imageUrl, userId, userReg, dateReg, timeReg, claimed);
             Log.d(TAG, "Adding item to database with ID: " + id);
             databaseReference.child(id).setValue(lostItem).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
@@ -196,12 +194,17 @@ public class AddLostItemActivity extends AppCompatActivity {
                         Log.e(TAG, "Failed to add item", task.getException());
                         Toast.makeText(AddLostItemActivity.this, "Failed to add item", Toast.LENGTH_SHORT).show();
                     }
+                    // Always re-enable the button after the entire process
+                    addButton.setEnabled(true);
                 }
             });
         } else {
             Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show();
+            // Enable the button if input validation fails
+            addButton.setEnabled(true);
         }
     }
+
 
     private void showDatePickerDialog() {
         Calendar calendar = Calendar.getInstance();

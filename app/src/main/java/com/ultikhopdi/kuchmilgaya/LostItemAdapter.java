@@ -54,6 +54,12 @@ public class LostItemAdapter extends RecyclerView.Adapter<LostItemAdapter.LostIt
             intent.putExtra("item_desc", lostItem.getDesc());
             intent.putExtra("item_contact", lostItem.getContact());
             intent.putExtra("item_image_url", lostItem.getImageUrl());
+            intent.putExtra("item_uid",lostItem.getId());
+            if (context instanceof ViewLostItemsActivity) {
+                intent.putExtra("viewall", true);
+            } else {
+                intent.putExtra("viewall", false);
+            }
             context.startActivity(intent);
         });
     }

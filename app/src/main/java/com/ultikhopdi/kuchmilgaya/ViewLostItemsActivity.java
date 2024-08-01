@@ -1,5 +1,8 @@
 package com.ultikhopdi.kuchmilgaya;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -41,8 +44,26 @@ public class ViewLostItemsActivity extends AppCompatActivity {
         adapter = new LostItemAdapter(filteredLostItemList, this);
         recyclerView.setAdapter(adapter);
 
+        loadDataFromDatabase();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filterItems(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterItems(newText);
+                return false;
+            }
+        });
+    }
+
+    private void loadDataFromDatabase() {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://kuch-mil-gaya-c28fd-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("lostItems");
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.orderByChild("claimed").equalTo(false).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -61,7 +82,10 @@ public class ViewLostItemsActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                 } else {
                     Log.d("ViewLostItemsActivity", "No data found in database");
-                    Toast.makeText(ViewLostItemsActivity.this, "No data found", Toast.LENGTH_SHORT).show();
+                    // Only show toast if no data was previously loaded
+                    if (lostItemList.isEmpty()) {
+                        Toast.makeText(ViewLostItemsActivity.this, "No data found", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
@@ -69,20 +93,6 @@ public class ViewLostItemsActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e("ViewLostItemsActivity", "Database error: " + databaseError.getMessage());
                 Toast.makeText(ViewLostItemsActivity.this, "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                filterItems(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                filterItems(newText);
-                return false;
             }
         });
     }

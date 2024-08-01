@@ -84,6 +84,29 @@
             android:textColor="@color/purple"
             app:fontFamily="sans-serif"
             tools:text="Item Contact" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_show_qr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_contact"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="6dp"
+            android:backgroundTint="@color/purple"
+            android:text="Generate QR"
+            android:textColor="@android:color/white"
+            app:cornerRadius="16dp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_delete"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="6dp"
+            android:backgroundTint="@color/purple"
+            android:text="Delete"
+            android:textColor="@android:color/white"
+            app:cornerRadius="16dp" />
+
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
