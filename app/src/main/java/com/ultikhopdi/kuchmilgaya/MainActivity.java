@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Set the content view for the MainActivity if not logged in
         setContentView(R.layout.activity_main);
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
         // Assign variable
         btSignIn = findViewById(R.id.bt_sign_in);

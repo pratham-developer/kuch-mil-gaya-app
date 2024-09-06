@@ -1,7 +1,11 @@
 package com.ultikhopdi.kuchmilgaya;
 
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,9 +44,27 @@ public class MyActivity extends AppCompatActivity {
         // Pass context and list to adapter
         adapter = new LostItemAdapter(filteredList, this);
         recyclerViewMyItems.setAdapter(adapter);
-        searchView = findViewById(R.id.search_view); // Make sure your layout uses androidx.appcompat.widget.SearchView
-        fetchUserItems();
+        searchView = findViewById(R.id.search_view);
+        EditText searchEditText = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
+        searchEditText.setTextColor(getResources().getColor(R.color.gold));
+        searchEditText.setHintTextColor(getResources().getColor(R.color.gold));
 
+
+
+        // Get the search icon drawable
+        int searchIconId = androidx.appcompat.R.id.search_mag_icon;
+        ImageView searchIcon = searchView.findViewById(searchIconId);
+
+        // Apply color filter to the search icon
+        searchIcon.setColorFilter(getResources().getColor(R.color.gold), PorterDuff.Mode.SRC_IN);
+        // Make sure your layout uses androidx.appcompat.widget.SearchView
+        fetchUserItems();
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.setIconified(false);
+            }
+        });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

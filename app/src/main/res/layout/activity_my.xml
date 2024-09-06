@@ -4,17 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_tint"
+    android:background="@color/bg"
     tools:context=".MyActivity">
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:iconifiedByDefault="false"
-        android:queryHint="Search items"
         android:background="@drawable/searchview_background"
         app:layout_constraintTop_toTopOf="parent"
+        app:queryHint="Search"
+        app:iconifiedByDefault="false"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -27,7 +29,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/background_tint"/>
+        android:background="@color/bg"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

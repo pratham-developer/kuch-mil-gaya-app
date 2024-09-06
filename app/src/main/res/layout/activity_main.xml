@@ -4,16 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_tint"
+    android:background="@color/bg"
     tools:context=".MainActivity">
-    <ImageView
-        android:id="@+id/top_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-    android:scaleType="centerCrop"
-    android:src="@drawable/cutout_top"
-    android:layout_alignParentTop="true"
-    android:fitsSystemWindows="true" />
+
 
 
     <com.google.android.material.textview.MaterialTextView
@@ -24,76 +17,41 @@
         android:layout_marginTop="150dp"
         android:text="Welcome!"
         android:layout_centerHorizontal="true"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textSize="42sp"
         app:fontFamily="sans-serif" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/kuch_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:layout_below="@id/welcome_text"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="90dp"
-        android:layout_marginTop="65dp"
-        android:text="Kuch"
-        android:textAlignment="center"
-        android:textColor="@color/purple"
-        android:textSize="40sp"
-        android:textStyle="bold"
-        app:fontFamily="sans-serif-bold" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/mil_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/kuch_text"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:text="- Mil -"
-        android:textColor="@color/purple"
-        android:textSize="40sp"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        app:fontFamily="sans-serif-bold" />
+        android:layout_marginTop="25dp"
+        android:src="@drawable/logo" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/gaya_text"
+        android:id="@+id/signin_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/mil_text"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="90dp"
-        android:text="Gaya"
-        android:textAlignment="center"
-        android:textColor="@color/purple"
-        android:textSize="40sp"
-        android:textStyle="bold"
-        app:fontFamily="sans-serif-bold" />
-
-
-
-
+        android:layout_marginTop="25dp"
+        android:text="Sign in with Google"
+        android:layout_below="@id/logo"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        app:fontFamily="sans-serif" />
 
     <ImageView
         android:id="@+id/bt_sign_in"
-        android:layout_width="256dp"
-        android:layout_height="256dp"
-        android:layout_below="@id/gaya_text"
-        android:layout_marginTop="0dp"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_below="@id/signin_text"
+        android:layout_marginTop="25dp"
         android:src="@drawable/google"
         android:layout_centerHorizontal="true"/>
 
 
-    <ImageView
-        android:id="@+id/bottom_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        android:src="@drawable/cutout_bottom"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:fitsSystemWindows="true" />
+
 
     </RelativeLayout>

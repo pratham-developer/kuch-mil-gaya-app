@@ -182,7 +182,7 @@ public class AddLostItemActivity extends AppCompatActivity {
         Boolean claimed = false;
 
         if (!itemName.isEmpty() && !date.isEmpty() && !time.isEmpty() && !place.isEmpty() && !desc.isEmpty() && !contact.isEmpty() && !userId.isEmpty() && !userReg.isEmpty() && !dateReg.isEmpty() && !timeReg.isEmpty()) {
-            LostItem lostItem = new LostItem(id, itemName, date, time, place, desc, contact, imageUrl, userId, userReg, dateReg, timeReg, claimed);
+            LostItem lostItem = new LostItem(id, itemName, date, time, place, desc, contact, imageUrl, userId, userReg, dateReg, timeReg, claimed,null);
             Log.d(TAG, "Adding item to database with ID: " + id);
             databaseReference.child(id).setValue(lostItem).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
@@ -211,13 +211,9 @@ public class AddLostItemActivity extends AppCompatActivity {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,
                 (view, year, month, dayOfMonth) -> {
-                    String date="";
-                    if((month+1)>=10){
-                    date = dayOfMonth + "/" + (month + 1) + "/" + year;
-                    }
-                    else{
-                        date = dayOfMonth + "/0" + (month + 1) + "/" + year;
-                    }
+                    String day = (dayOfMonth < 10) ? "0" + dayOfMonth : String.valueOf(dayOfMonth);
+                    String monthString = ((month + 1) < 10) ? "0" + (month + 1) : String.valueOf(month + 1);
+                    String date = day + "/" + monthString + "/" + year;
                     dateEditText.setText(date);
                 },
                 calendar.get(Calendar.YEAR),

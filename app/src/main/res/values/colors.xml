@@ -12,5 +12,8 @@
     <color name="your_input_background_color">#faf0e6</color>
     <color name="your_button_color">#535AFF</color>
 
+    <color name="bg">#191919</color>
+    <color name="gold">#FFEEC3</color>
+
 
 </resources>

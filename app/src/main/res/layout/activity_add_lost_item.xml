@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="@color/background_tint"
+    android:background="@color/bg"
     tools:context=".AddLostItemActivity"
     android:scrollbars="none">
 
@@ -19,22 +19,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            app:boxBackgroundColor="@color/your_input_background_color"
+            app:boxBackgroundColor="#4DFFEEC3"
             app:boxCornerRadiusTopStart="8dp"
             app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
             app:boxCornerRadiusBottomEnd="8dp"
-            app:boxStrokeColor="@color/your_hint_color"
+            app:boxStrokeColor="@color/gold"
             android:hint="Name the found item in 2-3 words"
+            app:hintTextColor="@color/gold"
+            app:placeholderTextColor="@color/gold"
+            app:cursorColor="@color/gold"
+            android:outlineSpotShadowColor="@color/gold"
             android:paddingTop="8dp"
+            android:textColorHint="@color/gold"
             android:paddingBottom="8dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/item_name"
+                android:textColorHighlight="@color/dull_black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/YourTextAppearance"
-                android:textColor="@color/your_text_color" />
+                android:textColor="@color/white"
+                android:fontFamily="sans-serif" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- EditText for Date -->
@@ -42,23 +48,29 @@
             android:id="@+id/date_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/item_name_layout"
             android:layout_marginBottom="16dp"
-            app:boxBackgroundColor="@color/your_input_background_color"
+            android:layout_below="@id/item_name_layout"
+            app:boxBackgroundColor="#4DFFEEC3"
             app:boxCornerRadiusTopStart="8dp"
             app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
             app:boxCornerRadiusBottomEnd="8dp"
-            app:boxStrokeColor="@color/your_hint_color"
+            app:boxStrokeColor="@color/gold"
             android:hint="When did you find it?"
+            app:hintTextColor="@color/gold"
+            app:placeholderTextColor="@color/gold"
+            app:cursorColor="@color/gold"
+            android:outlineSpotShadowColor="@color/gold"
             android:paddingTop="8dp"
+            android:textColorHint="@color/gold"
             android:paddingBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/date"
+                android:textColorHighlight="@color/dull_black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/your_text_color"
-                android:textAppearance="@style/YourTextAppearance"
+                android:textColor="@color/white"
+                android:fontFamily="sans-serif"
                 android:focusable="false"
                 android:clickable="false"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -68,23 +80,29 @@
             android:id="@+id/time_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/date_layout"
             android:layout_marginBottom="16dp"
-            app:boxBackgroundColor="@color/your_input_background_color"
+            android:layout_below="@id/date_layout"
+            app:boxBackgroundColor="#4DFFEEC3"
             app:boxCornerRadiusTopStart="8dp"
             app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
             app:boxCornerRadiusBottomEnd="8dp"
-            app:boxStrokeColor="@color/your_hint_color"
+            app:boxStrokeColor="@color/gold"
             android:hint="Time"
+            app:hintTextColor="@color/gold"
+            app:placeholderTextColor="@color/gold"
+            app:cursorColor="@color/gold"
+            android:outlineSpotShadowColor="@color/gold"
             android:paddingTop="8dp"
+            android:textColorHint="@color/gold"
             android:paddingBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/time"
+                android:textColorHighlight="@color/dull_black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/your_text_color"
-                android:textAppearance="@style/YourTextAppearance"
+                android:textColor="@color/white"
+                android:fontFamily="sans-serif"
                 android:focusable="false"
                 android:clickable="false" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -94,23 +112,29 @@
             android:id="@+id/place_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/time_layout"
             android:layout_marginBottom="16dp"
-            app:boxBackgroundColor="@color/your_input_background_color"
+            android:layout_below="@id/time_layout"
+            app:boxBackgroundColor="#4DFFEEC3"
             app:boxCornerRadiusTopStart="8dp"
             app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
             app:boxCornerRadiusBottomEnd="8dp"
-            app:boxStrokeColor="@color/your_hint_color"
+            app:boxStrokeColor="@color/gold"
             android:hint="Place"
+            app:hintTextColor="@color/gold"
+            app:placeholderTextColor="@color/gold"
+            app:cursorColor="@color/gold"
+            android:outlineSpotShadowColor="@color/gold"
             android:paddingTop="8dp"
+            android:textColorHint="@color/gold"
             android:paddingBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/place"
+                android:textColorHighlight="@color/dull_black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/your_text_color"
-                android:textAppearance="@style/YourTextAppearance" />
+                android:textColor="@color/white"
+                android:fontFamily="sans-serif"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- EditText for Description -->
@@ -118,23 +142,29 @@
             android:id="@+id/desc_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/place_layout"
             android:layout_marginBottom="16dp"
-            app:boxBackgroundColor="@color/your_input_background_color"
+            android:layout_below="@id/place_layout"
+            app:boxBackgroundColor="#4DFFEEC3"
             app:boxCornerRadiusTopStart="8dp"
             app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
             app:boxCornerRadiusBottomEnd="8dp"
-            app:boxStrokeColor="@color/your_hint_color"
+            app:boxStrokeColor="@color/gold"
             android:hint="Tell us more about it"
+            app:hintTextColor="@color/gold"
+            app:placeholderTextColor="@color/gold"
+            app:cursorColor="@color/gold"
+            android:outlineSpotShadowColor="@color/gold"
             android:paddingTop="8dp"
+            android:textColorHint="@color/gold"
             android:paddingBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/desc"
+                android:textColorHighlight="@color/dull_black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/your_text_color"
-                android:textAppearance="@style/YourTextAppearance" />
+                android:textColor="@color/white"
+                android:fontFamily="sans-serif" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- EditText for Contact -->
@@ -142,23 +172,29 @@
             android:id="@+id/contact_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/desc_layout"
             android:layout_marginBottom="16dp"
-            app:boxBackgroundColor="@color/your_input_background_color"
+            android:layout_below="@id/desc_layout"
+            app:boxBackgroundColor="#4DFFEEC3"
             app:boxCornerRadiusTopStart="8dp"
             app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
             app:boxCornerRadiusBottomEnd="8dp"
-            app:boxStrokeColor="@color/your_hint_color"
-            android:hint="How can we contact you on this regard?"
+            app:boxStrokeColor="@color/gold"
+            android:hint="How can we contact you?"
+            app:hintTextColor="@color/gold"
+            app:placeholderTextColor="@color/gold"
+            app:cursorColor="@color/gold"
+            android:outlineSpotShadowColor="@color/gold"
             android:paddingTop="8dp"
+            android:textColorHint="@color/gold"
             android:paddingBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/contact"
+                android:textColorHighlight="@color/dull_black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/your_text_color"
-                android:textAppearance="@style/YourTextAppearance" />
+                android:textColor="@color/white"
+                android:fontFamily="sans-serif"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Button to Select Image -->
@@ -167,8 +203,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/contact_layout"
-            android:text="Add a photo for reference -"
-            android:textColor="@color/your_hint_color"
+            android:text="Add a photo for reference"
+            android:textColor="@color/gold"
+            android:fontFamily="sans-serif"
             android:textSize="16sp"
             android:layout_marginBottom="8dp"/>
 
@@ -180,7 +217,7 @@
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="@android:color/white">
+            app:cardBackgroundColor="#4DFFEEC3">
 
             <ImageView
                 android:id="@+id/image_view"
@@ -197,11 +234,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/image_card"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="@color/your_button_color"
+            android:layout_marginTop="15dp"
+            android:layout_marginHorizontal="16dp"
             android:text="Submit"
-            android:textColor="@android:color/white"
-            android:textAllCaps="false"
-            android:layout_marginBottom="16dp"/>
+            android:backgroundTint="@color/gold"
+            android:textColor="@android:color/black"
+            app:cornerRadius="16dp"/>
     </RelativeLayout>
 </ScrollView>

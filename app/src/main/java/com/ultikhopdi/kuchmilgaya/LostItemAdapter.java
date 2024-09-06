@@ -34,11 +34,9 @@ public class LostItemAdapter extends RecyclerView.Adapter<LostItemAdapter.LostIt
     public void onBindViewHolder(@NonNull LostItemViewHolder holder, int position) {
         LostItem lostItem = lostItemList.get(position);
         holder.itemName.setText(lostItem.getItemName());
-        holder.itemDate.setText(lostItem.getDate());
-        holder.itemTime.setText(lostItem.getTime());
-        holder.itemPlace.setText(lostItem.getPlace());
-        holder.itemDesc.setText(lostItem.getDesc());
-        holder.itemContact.setText(lostItem.getContact());
+        holder.itemDate.setText("Date : "+lostItem.getDate());
+        holder.itemTime.setText("Time : "+lostItem.getTime());
+        holder.itemPlace.setText("Place : "+lostItem.getPlace());
 
         if (lostItem.getImageUrl() != null && !lostItem.getImageUrl().isEmpty()) {
             Glide.with(holder.itemView.getContext()).load(lostItem.getImageUrl()).into(holder.itemImage);

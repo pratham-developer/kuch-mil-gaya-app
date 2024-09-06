@@ -16,13 +16,14 @@ public class LostItem {
     private String dateReg;
     private String timeReg;
     private Boolean claimed;
+    private String claimedBy;
 
     public LostItem() {
         // Default constructor required for calls to DataSnapshot.getValue(LostItem.class)
     }
 
     public LostItem(String id, String itemName, String date, String time, String place,String desc,String contact, String imageUrl,
-                    String userId,String userReg,String dateReg,String timeReg,Boolean claimed) {
+                    String userId,String userReg,String dateReg,String timeReg,Boolean claimed,String claimedBy) {
         this.id = id;
         this.itemName = itemName;
         this.date = date;
@@ -36,6 +37,7 @@ public class LostItem {
         this.dateReg=dateReg;
         this.timeReg=timeReg;
         this.claimed=claimed;
+        this.claimedBy=claimedBy;
     }
 
     public String getId() {
@@ -88,5 +90,9 @@ public class LostItem {
 
     public Boolean getClaimed() {
         return claimed;
+    }
+
+    public String getClaimedBy() {
+        return claimedBy;
     }
 }
