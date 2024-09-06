@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +32,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Perform the back press actions and apply animations
+                finish();
+                overridePendingTransition(R.anim.flip_in_reverse, R.anim.flip_out_reverse);
+                // Apply reverse animation
+            }
+        });
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -40,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+            overridePendingTransition(R.anim.flip_in, R.anim.flip_out);
             finish();
+            overridePendingTransition(R.anim.flip_in_reverse, R.anim.flip_out_reverse);
             return; // Prevent further execution of onCreate
         }
 
@@ -53,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         // Initialize sign in options the client-id is copied form google-services.json file
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("5006594070-89i8qn3eg7rvfsrtg1lo41q61b2tfj85.apps.googleusercontent.com")
-                .requestEmail()
+                .requestEmail().setHostedDomain("vitstudent.ac.in")
                 .build();
 
         // Initialize sign in client
@@ -64,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = googleSignInClient.getSignInIntent();
             // Start activity for result
             startActivityForResult(intent, 100);
+            overridePendingTransition(R.anim.flip_in, R.anim.flip_out);
         });
 
         // Initialize firebase auth
@@ -74,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         if (firebaseUser != null) {
             // When user already sign in redirect to profile activity
             startActivity(new Intent(MainActivity.this, ProfileActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            overridePendingTransition(R.anim.flip_in, R.anim.flip_out);
         }
     }
 
@@ -118,7 +133,9 @@ public class MainActivity extends AppCompatActivity {
                                     Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(intent);
+                                    overridePendingTransition(R.anim.flip_in, R.anim.flip_out);
                                     finish();
+                                    overridePendingTransition(R.anim.flip_in_reverse, R.anim.flip_out_reverse);
                                 } else {
                                     // When task is unsuccessful display Toast
                                     displayToast("Authentication Failed");

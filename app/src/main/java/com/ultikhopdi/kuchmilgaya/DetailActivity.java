@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,7 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
+import androidx.activity.OnBackPressedCallback;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,13 +31,25 @@ public class DetailActivity extends AppCompatActivity {
     private Button btn_qr;
     private Button btn_del;
     private TextView txt_claimed_by;
+    private TextView txt_clm;
     private static final int REQUEST_CAMERA_PERMISSION = 201;
+    private static final String FIREBASE_DB_URL = "https://kuch-mil-gaya-c28fd-default-rtdb.asia-southeast1.firebasedatabase.app";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Perform the back press actions and apply animations
+                finish();
+                overridePendingTransition(R.anim.flip_in_reverse, R.anim.flip_out_reverse);
+                  // Apply reverse animation
+            }
+        });
 
         TextView itemName = findViewById(R.id.item_name);
         TextView itemDate = findViewById(R.id.item_date);
@@ -48,8 +61,13 @@ public class DetailActivity extends AppCompatActivity {
         btn_qr = findViewById(R.id.btn_show_qr);
         btn_del = findViewById(R.id.btn_delete);
         txt_claimed_by = findViewById(R.id.item_claimed_by);
+        txt_clm = findViewById(R.id.clm);
 
         Intent intent = getIntent();
+        String itemUid = intent.getStringExtra("item_uid");
+        String uploadedBy = intent.getStringExtra("uploadedBy");
+        Boolean viewAll = intent.getBooleanExtra("viewall", true);
+        boolean isMyClaims = intent.getBooleanExtra("isMyClaims", false);
 
         itemName.setText(intent.getStringExtra("item_name"));
         itemDate.setText(intent.getStringExtra("item_date"));
@@ -59,26 +77,29 @@ public class DetailActivity extends AppCompatActivity {
         itemContact.setText(intent.getStringExtra("item_contact"));
 
         String imageUrl = intent.getStringExtra("item_image_url");
-        if (imageUrl != null && !imageUrl.isEmpty()) {
+        if (!TextUtils.isEmpty(imageUrl)) {
             Glide.with(this).load(imageUrl).into(itemImage);
         }
 
-        String uid2 = intent.getStringExtra("item_uid");
-        Boolean viewall = intent.getBooleanExtra("viewall", true);
-        if (viewall) {
-            btn_del.setVisibility(View.GONE);
-            txt_claimed_by.setVisibility(View.GONE);
+        if (viewAll) {
+            
+            txt_claimed_by.setText(uploadedBy);
+            txt_clm.setText("Uploaded By");
             btn_qr.setText("Claim");
             btn_qr.setOnClickListener(v -> initiateQRScan());
         } else {
-            btn_del.setVisibility(View.VISIBLE);
-            checkIfItemClaimed(uid2);
+            checkIfItemClaimed(itemUid, isMyClaims, uploadedBy);
         }
 
-        btn_del.setOnClickListener(v -> delete_item(uid2));
+        btn_del.setOnClickListener(v -> deleteItem(itemUid));
     }
 
-    private void checkIfItemClaimed(String uid) {
+    private void checkIfItemClaimed(String uid, boolean isMyClaims, String uploadedBy) {
+        // Set default UI state before loading data to avoid visual delay
+        btn_qr.setVisibility(View.GONE);
+        txt_clm.setText("Claimed By");
+        txt_claimed_by.setText("");
+
         DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://kuch-mil-gaya-c28fd-default-rtdb.asia-southeast1.firebasedatabase.app")
                 .getReference("lostItems")
                 .child(uid);
@@ -88,22 +109,34 @@ public class DetailActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Boolean claimed = dataSnapshot.child("claimed").getValue(Boolean.class);
                 String claimedBy = dataSnapshot.child("claimedBy").getValue(String.class);
-                if (claimed!=null && claimed) {
-                    btn_qr.setVisibility(View.GONE);
-                    txt_claimed_by.setVisibility(View.VISIBLE);
-                    txt_claimed_by.setText(claimedBy);
 
-                } else {
-                    btn_qr.setVisibility(View.VISIBLE);
-                    txt_claimed_by.setVisibility(View.GONE);
-                    btn_qr.setText("Generate QR");
-                    btn_qr.setOnClickListener(v -> {
-                        Intent qrIntent = new Intent(DetailActivity.this, QrActivity.class);
-                        qrIntent.putExtra("item_uid", uid);
-                        qrIntent.putExtra("source", "my_activity");
-                        startActivity(qrIntent);
-                    });
-                }
+                // Run UI updates on the main thread for responsiveness
+                runOnUiThread(() -> {
+                    if (Boolean.TRUE.equals(claimed)) {
+                        btn_qr.setVisibility(View.GONE);
+                        btn_del.setVisibility(View.GONE);
+                        if (isMyClaims) {
+                            txt_clm.setText("Uploaded By");
+                            txt_claimed_by.setText(uploadedBy);
+                        } else {
+                            txt_clm.setText("Claimed By");
+                            txt_claimed_by.setText(claimedBy);
+                        }
+                    } else {
+                        btn_qr.setVisibility(View.VISIBLE);
+                        btn_del.setVisibility(View.VISIBLE);
+                        txt_clm.setText("Claimed By");
+                        txt_claimed_by.setText("");
+                        btn_qr.setText("Generate QR");
+                        btn_qr.setOnClickListener(v -> {
+                            Intent qrIntent = new Intent(DetailActivity.this, QrActivity.class);
+                            qrIntent.putExtra("item_uid", uid);
+                            qrIntent.putExtra("source", "my_activity");
+                            startActivity(qrIntent);
+                            overridePendingTransition(R.anim.flip_in, R.anim.flip_out);
+                        });
+                    }
+                });
             }
 
             @Override
@@ -113,8 +146,8 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
-    private void delete_item(String uid) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://kuch-mil-gaya-c28fd-default-rtdb.asia-southeast1.firebasedatabase.app")
+    private void deleteItem(String uid) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance(FIREBASE_DB_URL)
                 .getReference("lostItems")
                 .child(uid);
 
@@ -124,7 +157,9 @@ public class DetailActivity extends AppCompatActivity {
                 Intent intent = new Intent(DetailActivity.this, ProfileActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                overridePendingTransition(R.anim.flip_in, R.anim.flip_out);
                 finish();
+                overridePendingTransition(R.anim.flip_in_reverse, R.anim.flip_out_reverse);
             } else {
                 Toast.makeText(DetailActivity.this, "Failed to delete item. Please try again.", Toast.LENGTH_LONG).show();
             }
@@ -134,7 +169,15 @@ public class DetailActivity extends AppCompatActivity {
     private void initiateQRScan() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                new androidx.appcompat.app.AlertDialog.Builder(this)
+                        .setMessage("Camera access is required to scan QR codes.")
+                        .setPositiveButton("OK", (dialog, which) -> ActivityCompat.requestPermissions(DetailActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION))
+                        .setNegativeButton("Cancel", null)
+                        .show();
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+            }
         } else {
             startQRScanner();
         }
@@ -160,7 +203,7 @@ public class DetailActivity extends AppCompatActivity {
             } else {
                 String scannedData = result.getContents();
                 String itemUid = getIntent().getStringExtra("item_uid");
-                if (scannedData.equals(itemUid)) {
+                if (!TextUtils.isEmpty(scannedData) && scannedData.equals(itemUid)) {
                     markItemAsClaimed(itemUid);
                 } else {
                     Toast.makeText(this, "Invalid QR Code", Toast.LENGTH_LONG).show();
@@ -174,25 +217,32 @@ public class DetailActivity extends AppCompatActivity {
     private void markItemAsClaimed(String itemUid) {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        String name = firebaseUser.getDisplayName();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://kuch-mil-gaya-c28fd-default-rtdb.asia-southeast1.firebasedatabase.app")
-                .getReference("lostItems")
-                .child(itemUid);
+        if (firebaseUser != null) {
+            String name = firebaseUser.getDisplayName();
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance(FIREBASE_DB_URL)
+                    .getReference("lostItems")
+                    .child(itemUid);
 
-        databaseReference.child("claimed").setValue(true).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Toast.makeText(DetailActivity.this, "Item claimed successfully!", Toast.LENGTH_LONG).show();
-                databaseReference.child("claimedBy").setValue(name);
-                //verify this from chatgpt if this is correct or not
-            } else {
-                Toast.makeText(DetailActivity.this, "Failed to claim item. Please try again.", Toast.LENGTH_LONG).show();
-            }
-            Intent intent = new Intent(DetailActivity.this, ProfileActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
-        });
+            databaseReference.child("claimed").setValue(true).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Toast.makeText(DetailActivity.this, "Item claimed successfully!", Toast.LENGTH_LONG).show();
+                    databaseReference.child("claimedBy").setValue(name);
+                } else {
+                    Toast.makeText(DetailActivity.this, "Failed to claim item. Please try again.", Toast.LENGTH_LONG).show();
+                }
+                Intent intent = new Intent(DetailActivity.this, ProfileActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                overridePendingTransition(R.anim.flip_in, R.anim.flip_out);
+                finish();
+                overridePendingTransition(R.anim.flip_in_reverse, R.anim.flip_out_reverse);
+            });
+        } else {
+            Toast.makeText(DetailActivity.this, "User not authenticated!", Toast.LENGTH_LONG).show();
+        }
     }
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -201,7 +251,7 @@ public class DetailActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 startQRScanner();
             } else {
-                Toast.makeText(this, "Camera permission is required to scan QR codes.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Camera permission denied", Toast.LENGTH_LONG).show();
             }
         }
     }

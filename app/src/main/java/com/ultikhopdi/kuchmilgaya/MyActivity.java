@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView; // Correct import
@@ -35,14 +37,23 @@ public class MyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
-
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Perform the back press actions and apply animations
+                finish();
+                overridePendingTransition(R.anim.flip_in_reverse, R.anim.flip_out_reverse);
+                // Apply reverse animation
+            }
+        });
         recyclerViewMyItems = findViewById(R.id.recycler_view_my_items);
         recyclerViewMyItems.setLayoutManager(new LinearLayoutManager(this));
         myItemList = new ArrayList<>();
         filteredList = new ArrayList<>();
 
         // Pass context and list to adapter
-        adapter = new LostItemAdapter(filteredList, this);
+        boolean isMyClaims = getIntent().getBooleanExtra("isMyClaims", false);  // Retrieve the flag
+        adapter = new LostItemAdapter(filteredList, this,isMyClaims);
         recyclerViewMyItems.setAdapter(adapter);
         searchView = findViewById(R.id.search_view);
         EditText searchEditText = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
@@ -58,7 +69,8 @@ public class MyActivity extends AppCompatActivity {
         // Apply color filter to the search icon
         searchIcon.setColorFilter(getResources().getColor(R.color.gold), PorterDuff.Mode.SRC_IN);
         // Make sure your layout uses androidx.appcompat.widget.SearchView
-        fetchUserItems();
+        String source = getIntent().getStringExtra("source");
+        fetchUserItems(source);
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,16 +92,22 @@ public class MyActivity extends AppCompatActivity {
         });
     }
 
-    private void fetchUserItems() {
+    private void fetchUserItems(String source) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             Toast.makeText(MyActivity.this, "User not logged in", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        String userId = user.getEmail();  // Prefer using UID instead of email
+        String userId;
+        if(source.equals("userId")){
+            userId = user.getEmail();
+        }
+        else{
+            userId = user.getDisplayName();
+        }
+         // Prefer using UID instead of email
         DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://kuch-mil-gaya-c28fd-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("lostItems");
-        databaseReference.orderByChild("userId").equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.orderByChild(source).equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {

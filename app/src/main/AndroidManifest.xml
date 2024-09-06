@@ -10,7 +10,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -21,7 +20,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KuchMilGaya"
         tools:targetApi="31">
-
+        <activity
+            android:name=".DeveloperTeam"
+            android:exported="false" />
+        <activity
+            android:name=".InsideMyActivity"
+            android:exported="false" />
         <activity
             android:name=".QrActivity"
             android:exported="false" />
@@ -31,7 +35,7 @@
         <activity
             android:name=".DetailActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ViewLostItemsActivity"
             android:exported="false" />

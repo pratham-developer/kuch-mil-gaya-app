@@ -92,7 +92,5 @@ public class LostItem {
         return claimed;
     }
 
-    public String getClaimedBy() {
-        return claimedBy;
-    }
+
 }

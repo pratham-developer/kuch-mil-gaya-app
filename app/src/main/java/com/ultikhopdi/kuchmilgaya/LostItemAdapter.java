@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
@@ -17,10 +19,17 @@ public class LostItemAdapter extends RecyclerView.Adapter<LostItemAdapter.LostIt
 
     private List<LostItem> lostItemList;
     private Context context;
+    private Boolean isMyClaims;
 
     public LostItemAdapter(List<LostItem> lostItemList, Context context) {
         this.lostItemList = lostItemList;
         this.context = context;
+        this.isMyClaims = false;
+    }
+    public LostItemAdapter(List<LostItem> lostItemList, Context context, Boolean isMyClaims) {
+        this.lostItemList = lostItemList;
+        this.context = context;
+        this.isMyClaims = isMyClaims;
     }
 
     @NonNull
@@ -37,6 +46,13 @@ public class LostItemAdapter extends RecyclerView.Adapter<LostItemAdapter.LostIt
         holder.itemDate.setText("Date : "+lostItem.getDate());
         holder.itemTime.setText("Time : "+lostItem.getTime());
         holder.itemPlace.setText("Place : "+lostItem.getPlace());
+        boolean claimed = lostItem.getClaimed();
+        if(!claimed){
+            holder.tickImage.setVisibility(View.GONE);
+        }
+        else{
+            holder.tickImage.setVisibility(View.VISIBLE);
+        }
 
         if (lostItem.getImageUrl() != null && !lostItem.getImageUrl().isEmpty()) {
             Glide.with(holder.itemView.getContext()).load(lostItem.getImageUrl()).into(holder.itemImage);
@@ -53,12 +69,18 @@ public class LostItemAdapter extends RecyclerView.Adapter<LostItemAdapter.LostIt
             intent.putExtra("item_contact", lostItem.getContact());
             intent.putExtra("item_image_url", lostItem.getImageUrl());
             intent.putExtra("item_uid",lostItem.getId());
+            intent.putExtra("uploadedBy",lostItem.getUserReg());
+            intent.putExtra("isMyClaims", isMyClaims);
             if (context instanceof ViewLostItemsActivity) {
                 intent.putExtra("viewall", true);
             } else {
                 intent.putExtra("viewall", false);
+
             }
-            context.startActivity(intent);
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(
+                    context, R.anim.flip_in, R.anim.flip_out);
+            ActivityCompat.startActivity(context, intent, options.toBundle());
+
         });
     }
 
@@ -69,7 +91,7 @@ public class LostItemAdapter extends RecyclerView.Adapter<LostItemAdapter.LostIt
 
     public static class LostItemViewHolder extends RecyclerView.ViewHolder {
         public TextView itemName, itemDate, itemTime, itemPlace, itemDesc, itemContact;
-        public ImageView itemImage;
+        public ImageView itemImage, tickImage;
 
         public LostItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -80,6 +102,7 @@ public class LostItemAdapter extends RecyclerView.Adapter<LostItemAdapter.LostIt
             itemDesc = itemView.findViewById(R.id.item_desc);
             itemContact = itemView.findViewById(R.id.item_contact);
             itemImage = itemView.findViewById(R.id.item_image);
+            tickImage = itemView.findViewById(R.id.img_tick);
         }
     }
 }

@@ -6,6 +6,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
@@ -27,6 +29,7 @@ public class AccountActivity extends AppCompatActivity {
     private Button btAbtus;
     private Button btTnc;
     private Button btLogout;
+    private Button devTeam;
     private ImageView btn_back;
 
     private FirebaseAuth firebaseAuth;
@@ -36,6 +39,15 @@ public class AccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Perform the back press actions and apply animations
+                finish();
+                overridePendingTransition(R.anim.flip_in_reverse, R.anim.flip_out_reverse);
+                // Apply reverse animation
+            }
+        });
 
         // Assign variables
         uName = findViewById(R.id.userName);
@@ -46,6 +58,7 @@ public class AccountActivity extends AppCompatActivity {
         btTnc = findViewById(R.id.btn_tnc);
         btLogout = findViewById(R.id.btn_signout);
         btn_back = findViewById(R.id.back);
+        devTeam = findViewById(R.id.btn_dev);
 
         // Initialize Firebase Auth
         firebaseAuth = FirebaseAuth.getInstance();
@@ -90,8 +103,10 @@ public class AccountActivity extends AppCompatActivity {
                 Intent intent = new Intent(AccountActivity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
+                overridePendingTransition(R.anim.flip_in, R.anim.flip_out);
                 // Finish activity
                 finish();
+                overridePendingTransition(R.anim.flip_in_reverse, R.anim.flip_out_reverse);
             } else {
                 Toast.makeText(getApplicationContext(), "Logout unsuccessful", Toast.LENGTH_SHORT).show();
             }
@@ -106,8 +121,18 @@ public class AccountActivity extends AppCompatActivity {
         btActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AccountActivity.this, MyActivity.class);
+                Intent intent = new Intent(AccountActivity.this, InsideMyActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.flip_in, R.anim.flip_out);
+            }
+        });
+
+        devTeam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AccountActivity.this, DeveloperTeam.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.flip_in, R.anim.flip_out);
             }
         });
 

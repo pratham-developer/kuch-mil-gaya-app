@@ -21,21 +21,17 @@ import com.google.firebase.auth.FirebaseUser;
 import android.content.Intent;
 
 
-public class ProfileActivity extends AppCompatActivity {
+public class InsideMyActivity extends AppCompatActivity {
     // Initialize variable
-    TextView tvName;
-    ImageView accountBut;
-    ImageView notifBut;
-    Button fndBut;
-    Button repBut;
-    FirebaseAuth firebaseAuth;
-    GoogleSignInClient googleSignInClient;
 
+    Button claimBut;
+    Button repBut;
+    ImageView btn_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_inside_my);
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -45,40 +41,26 @@ public class ProfileActivity extends AppCompatActivity {
                 // Apply reverse animation
             }
         });
+
         // Assign variable
-        tvName = findViewById(R.id.iv_name);
-        accountBut = findViewById(R.id.iv_profile);
-        notifBut = findViewById(R.id.iv_notification);
-        fndBut = findViewById(R.id.btn_find_lost);
-        repBut = findViewById(R.id.btn_report_found);
-        // Initialize firebase auth
-        notifBut.setVisibility(View.INVISIBLE);
-        firebaseAuth = FirebaseAuth.getInstance();
-        // Initialize firebase user
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        claimBut = findViewById(R.id.btn_myclaims);
+        repBut = findViewById(R.id.btn_myrep);
+        btn_back = findViewById(R.id.back);
 
-        // Check condition
-        if (firebaseUser != null) {
-            // When firebase user is not equal to null set image on image view
-            // set name on text view
-            String name = firebaseUser.getDisplayName();
-            String[] words = name.split(" ");
-            tvName.setText(words[0] + "!");
-        }
-
-
-        accountBut.setOnClickListener(new View.OnClickListener() {
+        btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, AccountActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.flip_in, R.anim.flip_out);
+                finish();
             }
         });
-        fndBut.setOnClickListener(new View.OnClickListener() {
+
+
+        claimBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, ViewLostItemsActivity.class);
+                Intent intent = new Intent(InsideMyActivity.this, MyActivity.class);
+                intent.putExtra("source", "claimedBy");
+                intent.putExtra("isMyClaims", true);  // This indicates it's "My Claims"
                 startActivity(intent);
                 overridePendingTransition(R.anim.flip_in, R.anim.flip_out);
             }
@@ -86,7 +68,9 @@ public class ProfileActivity extends AppCompatActivity {
         repBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, AddLostItemActivity.class);
+                Intent intent = new Intent(InsideMyActivity.this, MyActivity.class);
+                intent.putExtra("source", "userId");
+                intent.putExtra("isMyClaims", false);  // This indicates it's "My Reports"
                 startActivity(intent);
                 overridePendingTransition(R.anim.flip_in, R.anim.flip_out);
             }

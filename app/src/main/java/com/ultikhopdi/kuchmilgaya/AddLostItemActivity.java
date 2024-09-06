@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,6 +52,15 @@ public class AddLostItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_lost_item);
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Perform the back press actions and apply animations
+                finish();
+                overridePendingTransition(R.anim.flip_in_reverse, R.anim.flip_out_reverse);
+                // Apply reverse animation
+            }
+        });
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
         itemNameEditText = findViewById(R.id.item_name);
@@ -94,6 +105,7 @@ public class AddLostItemActivity extends AppCompatActivity {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
+        overridePendingTransition(R.anim.flip_in, R.anim.flip_out);
     }
 
     @Override
@@ -163,9 +175,10 @@ public class AddLostItemActivity extends AppCompatActivity {
 
         if (firebaseUser != null) {
             userId = firebaseUser.getEmail();
-            String name = firebaseUser.getDisplayName();
-            String[] words = name.split(" ");
-            userReg = words[words.length - 1];
+            userReg = firebaseUser.getDisplayName();
+            //String name = firebaseUser.getDisplayName();
+            //String[] words = name.split(" ");
+            //userReg = words[words.length - 1];
         }
         String itemName = itemNameEditText.getText().toString().trim();
         String date = dateEditText.getText().toString().trim();
